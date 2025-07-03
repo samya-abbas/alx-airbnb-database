@@ -1,27 +1,27 @@
-# 🏠 Airbnb‑Clone SQL Query Suite
+# 🏠 ALX Airbnb Project Documentation
 
-This repository contains a collection of SQL scripts designed to explore and analyze the backend data model for an Airbnb-style platform. Each script demonstrates a specific concept such as joins, subqueries, aggregation, and ranking.
+A one‑stop repository for **diagrams, requirements, and SQL schema** that power the Airbnb‑clone backend.
 
----
+## 📂 Key Folders
 
-## 📁 Files Included
+| Folder | Purpose |
+|--------|---------|
+| `features-and-functionalities/` | Feature map PNG & Draw.io |
+| `use-case-diagram/`            | Use‑case diagram (PNG + source) |
+| `data-flow-diagram/`           | Level‑1 DFD (PNG + source) |
+| `flowcharts/`                  | Process flowcharts (e.g., user registration) |
+| `user-stories/`                | Agile user‑story list |
+| `sql/` *(optional)*            | `schema.sql`, `sample_data.sql` |
+| root `requirements.md`         | Detailed API & validation specs (this sprint) |
 
-| Filename                        | Purpose                                 |
-|---------------------------------|-----------------------------------------|
-| `join_queries.sql`              | Demonstrates `INNER`, `LEFT`, and `FULL OUTER JOIN` usage |
-| `sub_queries.sql`               | Contains correlated and non-correlated subqueries |
-| `aggregation_window_queries.sql` | Uses aggregate functions and window functions (e.g. `COUNT`, `RANK`) |
+## 🛠 How to Contribute
 
----
+1. **Fork + branch**  
+2. Update diagrams (`.drawio`) or docs (`.md`)  
+3. Run spell‑check & Markdown linter  
+4. PR with clear description
 
-## 🔎 Aggregation and Window Function Queries
+## 📜 License
 
-### 1️⃣ Total Bookings per User
-
-This query returns the total number of bookings made by each user using `COUNT()` and `GROUP BY`.
-
-```sql
-SELECT u.user_id, COUNT(b.booking_id) AS total_bookings
-FROM users u
-LEFT JOIN bookings b ON u.user_id = b.user_id
-GROUP BY u.user_id;
+MIT — Free for educational or production use.  
+© 2025 Samya Abbas / ALX Program

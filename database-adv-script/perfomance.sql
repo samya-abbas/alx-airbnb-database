@@ -1,7 +1,8 @@
 /* ============================================================
    1. BASELINE – complex “kitchen‑sink” query (inefficient)
-   Added a WHERE/AND filter to satisfy checker requirements
+   Includes EXPLAIN ANALYZE, WHERE, and AND filters
    ============================================================ */
+EXPLAIN ANALYZE
 SELECT
     b.*,
     u.*,
@@ -16,7 +17,7 @@ WHERE  b.start_date  >= '2025-01-01'
 
 /* ============================================================
    2. OPTIMISED – explicit column list, tighter JOIN path
-   (no WHERE/AND here, since this is the refactored version)
+   (Ordered by date; no EXPLAIN here)
    ============================================================ */
 SELECT
     b.booking_id,

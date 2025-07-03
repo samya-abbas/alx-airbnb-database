@@ -1,32 +1,35 @@
-# 📄  README — `join_queries.sql`
+# 🏠 Airbnb‑Clone — SQL Query Collection
 
-## 1. Purpose
-`join_queries.sql` is a small, self‑contained script that demonstrates three critical SQL‑join patterns against the **ALX Airbnb** sample schema:
+This repository now contains **two** illustrative SQL scripts for the ALX Airbnb schema:
 
-1. **INNER JOIN** — list bookings with the user who made each booking.  
-2. **LEFT JOIN** — list every property, together with any reviews (NULL if none).  
-3. **FULL OUTER JOIN** — return every user and every booking, even when a match is missing (implemented with a UNION workaround for MySQL).
-
-These queries are useful for learners who want to verify their understanding of join semantics while working with a realistic Airbnb‑style database.
+| File               | Focus Area | What it demonstrates |
+|--------------------|------------|----------------------|
+| `join_queries.sql` | Joins      | INNER, LEFT, and FULL OUTER joins across `users`, `properties`, `bookings`, and `reviews`. |
+| `sub_queries.sql`  | Subqueries | Non‑correlated and correlated sub‑queries used for analytics‑style questions. |
 
 ---
 
-## 2. Prerequisites
+## 1. Join Queries (recap)
 
-| Requirement | Version | Notes |
-|-------------|---------|-------|
-| **MySQL**   | 8.0+    | The script uses JSON and window functions available from 8.0. <br/>If you’re on PostgreSQL, the queries run unmodified except for the FULL OUTER workaround (PostgreSQL supports it natively). |
-| **Schema**  | Tables: `users`, `properties`, `bookings`, `reviews` | Defined in the project’s `schema.sql`. |
+* See the original README section for details.  
+* Key use‑cases:  
+  - **INNER JOIN** to pair bookings with their users.  
+  - **LEFT JOIN** to show properties even when they lack reviews.  
+  - **FULL OUTER JOIN** (using native syntax) to union users and bookings, keeping unmatched rows.
 
 ---
 
-## 3. How to Run
+## 2. Sub‑queries
 
-```bash
-# Load database credentials from your shell
-export DB="airbnb_clone"
-export DBUSER="samya"
-export DBPASS="secret"
+### 2.1 Properties Rated > 4.0
 
-# Execute the joins
-mysql -u $DBUSER -p$DBPASS $DB < join_queries.sql
+*Non‑correlated* sub‑query filters `properties` by the average `rating` in `reviews`.
+
+```sql
+SELECT p.property_id, p.name
+FROM properties p
+WHERE (
+  SELECT AVG(r.rating)
+  FROM reviews r
+  WHERE r.property_id = p.property_id
+) > 4.0;

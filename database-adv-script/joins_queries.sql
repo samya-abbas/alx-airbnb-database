@@ -47,3 +47,17 @@ FROM bookings AS b
 LEFT JOIN users AS u
        ON b.user_id = u.user_id
 WHERE u.user_id IS NULL;
+
+/* Q3 – all users plus all bookings, linked or not */
+SELECT
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    b.booking_id,
+    b.property_id,
+    b.start_date,
+    b.end_date
+FROM   users    AS u
+FULL OUTER JOIN bookings AS b
+       ON u.user_id = b.user_id;
+

@@ -1,35 +1,36 @@
-# 🏠 Airbnb‑Clone — SQL Query Collection
+# 📄  README — `join_queries.sql`
 
-This repository now contains **two** illustrative SQL scripts for the ALX Airbnb schema:
+## 1. Purpose
+`join_queries.sql` is a small, self‑contained script that demonstrates three critical SQL‑join patterns against the **ALX Airbnb** sample schema:
 
-| File               | Focus Area | What it demonstrates |
-|--------------------|------------|----------------------|
-| `join_queries.sql` | Joins      | INNER, LEFT, and FULL OUTER joins across `users`, `properties`, `bookings`, and `reviews`. |
-| `sub_queries.sql`  | Subqueries | Non‑correlated and correlated sub‑queries used for analytics‑style questions. |
+1. **INNER JOIN** — list bookings with the user who made each booking.  
+2. **LEFT JOIN** — list every property, together with any reviews (NULL if none).  
+3. **FULL OUTER JOIN** — return every user and every booking, even when a match is missing (implemented with a UNION workaround for MySQL).
 
----
-
-## 1. Join Queries (recap)
-
-* See the original README section for details.  
-* Key use‑cases:  
-  - **INNER JOIN** to pair bookings with their users.  
-  - **LEFT JOIN** to show properties even when they lack reviews.  
-  - **FULL OUTER JOIN** (using native syntax) to union users and bookings, keeping unmatched rows.
+These queries are useful for learners who want to verify their understanding of join semantics while working with a realistic Airbnb‑style database.
 
 ---
 
-## 2. Sub‑queries
+## 2. Prerequisites
 
-### 2.1 Properties Rated > 4.0
+| Requirement | Version | Notes |
+|-------------|---------|-------|
+| **MySQL**   | 8.0+    | The script uses JSON and window functions available from 8.0. <br/>If you’re on PostgreSQL, the queries run unmodified except for the FULL OUTER workaround (PostgreSQL supports it natively). |
+| **Schema**  | Tables: `users`, `properties`, `bookings`, `reviews` | Defined in the project’s `schema.sql`. |
 
-*Non‑correlated* sub‑query filters `properties` by the average `rating` in `reviews`.
+---
+
+# Execute the joins
+mysql -u $DBUSER -p$DBPASS $DB < join_queries.sql
+
+## 🔎 Aggregation and Window Function Queries
+
+### 1️⃣ Total Bookings per User
+
+This query returns the total number of bookings made by each user using `COUNT()` and `GROUP BY`.
 
 ```sql
-SELECT p.property_id, p.name
-FROM properties p
-WHERE (
-  SELECT AVG(r.rating)
-  FROM reviews r
-  WHERE r.property_id = p.property_id
-) > 4.0;
+SELECT u.user_id, COUNT(b.booking_id) AS total_bookings
+FROM users u
+LEFT JOIN bookings b ON u.user_id = b.user_id
+GROUP BY u.user_id;

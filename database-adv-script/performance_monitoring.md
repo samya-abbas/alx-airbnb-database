@@ -1,4 +1,4 @@
-````markdown
+
 # 📈 Continuous Performance Monitoring – Airbnb Clone Database
 
 This report shows how we routinely inspect and fine‑tune database performance by
